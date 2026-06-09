@@ -11,8 +11,13 @@
   },
   "name": "URL and Title Copier",
   "permissions": [
-    "tabs"
+    "tabs",
+    "contextMenus",
+    "clipboardWrite"
   ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
   "version": "0.4.2",
   "manifest_version": 3
 }
