@@ -13,7 +13,12 @@
   "permissions": [
     "tabs",
     "contextMenus",
-    "clipboardWrite"
+    "clipboardWrite",
+    "scripting",
+	"storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
   ],
   "background": {
     "service_worker": "src/background.js"
