@@ -3,7 +3,13 @@ function copyToClipboard(str) {
 	if (obj) {
 	  obj.value = str;
 	  obj.select();
-	  document.execCommand("copy", false, null);
+	  if (document.execCommand("copy", false, null)) {
+	    const status = document.getElementById("copy-status");
+	    status.hidden = false;
+	    setTimeout(() => window.close(), 500);
+	  } else {
+	    console.error("Copy failed");
+	  }
 	}
 }
 
@@ -25,7 +31,6 @@ function copyTitle() {
 	let queryOptions = {active: true, lastFocusedWindow: true};
 	chrome.tabs.query(queryOptions, ([tab]) => {
 		copyToClipboard( tab.title );
-		window.close();
 	});
 }
 
@@ -33,7 +38,6 @@ function copyurl() {
 	let queryOptions = {active: true, lastFocusedWindow: true};
 	chrome.tabs.query(queryOptions, ([tab]) => {
 	  copyToClipboard( tab.url );
-	  window.close();
 	});
 }
 
@@ -45,7 +49,6 @@ function copyurlAsMarkdown() {
 	  } else {
 	    copyToClipboard( tab.url );
 	  }
-	  window.close();
 	});
 }
 
@@ -57,7 +60,6 @@ function copytitleurl() {
 	  } else {
 	    copyToClipboard( tab.url );
 	  }
-	  window.close();
 	});
 }
 
@@ -69,7 +71,6 @@ function copytitleurlWithGt() {
 		} else {
 			copyToClipboard( "> " + tab.url );
 		}
-		window.close();
 	});
 }
 
@@ -81,7 +82,6 @@ function copyurlwtag() {
 	  } else {
 	    copyToClipboard( "<a href=\"" + tab.url + "\">" + tab.url + "</a>" );
 	  }
-	  window.close();
 	});
 }
 

@@ -49,9 +49,16 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (!text) return;
 
   // clipboard API is unavailable in service workers
-  chrome.scripting.executeScript({
+  await chrome.scripting.executeScript({
     target: { tabId: tab.id },
-    func: (text) => navigator.clipboard.writeText(text),
+    func: async (text) => {
+      await navigator.clipboard.writeText(text);
+      const bubble = document.createElement("div");
+      bubble.textContent = "Copied";
+      bubble.style.cssText = "position:fixed;top:16px;right:16px;z-index:2147483647;padding:8px 12px;border-radius:6px;background:#333;color:#fff;font:14px sans-serif;pointer-events:none";
+      document.documentElement.appendChild(bubble);
+      setTimeout(() => bubble.remove(), 500);
+    },
     args: [text],
-  });
+  }).catch(error => console.error("Copy failed:", error));
 });
